@@ -9,7 +9,9 @@ import { setCharacterTemplates } from '../office/sprites/spriteData.js';
 import { extractToolName } from '../office/toolUtils.js';
 import type { OfficeLayout, ToolActivity } from '../office/types.js';
 import { setWallSprites } from '../office/wallTiles.js';
+import { isBrowserRuntime } from '../runtime.js';
 import { vscode } from '../vscodeApi.js';
+import { onMessage as wsOnMessage } from '../wsClient.js';
 
 export interface SubagentCharacter {
   id: number;
@@ -397,9 +399,19 @@ export function useExtensionMessages(
         }
       }
     };
-    window.addEventListener('message', handler);
-    vscode.postMessage({ type: 'webviewReady' });
-    return () => window.removeEventListener('message', handler);
+    if (isBrowserRuntime) {
+      // In browser mode, receive messages via WebSocket (and local dispatches from browserMock)
+      const unsubscribe = wsOnMessage((msg) => {
+        handler({ data: msg } as MessageEvent);
+      });
+      vscode.postMessage({ type: 'webviewReady' });
+      return unsubscribe;
+    } else {
+      // In VS Code, use the standard postMessage channel
+      window.addEventListener('message', handler);
+      vscode.postMessage({ type: 'webviewReady' });
+      return () => window.removeEventListener('message', handler);
+    }
   }, [getOfficeState]);
 
   return {

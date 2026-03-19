@@ -8,6 +8,7 @@
  * Only imported in browser runtime; tree-shaken from VS Code webview runtime.
  */
 
+import { dispatchLocal } from './wsClient.js';
 import {
   CHAR_FRAME_H,
   CHAR_FRAME_W,
@@ -253,8 +254,10 @@ export function dispatchMockMessages(): void {
   const { characters, floorSprites, wallSets, furnitureCatalog, furnitureSprites, layout } =
     mockPayload;
 
-  function dispatch(data: unknown): void {
-    window.dispatchEvent(new MessageEvent('message', { data }));
+  // Use wsClient's local dispatch so messages reach the onMessage handlers
+  // (useExtensionMessages now listens via wsClient in browser mode, not window events)
+  function dispatch(data: Record<string, unknown>): void {
+    dispatchLocal(data);
   }
 
   // Must match the load order defined in CLAUDE.md:
