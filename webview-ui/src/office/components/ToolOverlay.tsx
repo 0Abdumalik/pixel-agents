@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { CHARACTER_SITTING_OFFSET_PX, TOOL_OVERLAY_VERTICAL_OFFSET } from '../../constants.js';
 import type { SubagentCharacter } from '../../hooks/useExtensionMessages.js';
+import { t } from '../../i18n/index.js';
 import type { OfficeState } from '../engine/officeState.js';
 import type { ToolActivity } from '../types.js';
 import { CharacterState, TILE_SIZE } from '../types.js';
@@ -106,10 +107,10 @@ export function ToolOverlay({
         let activityText: string;
         if (isSub) {
           if (subHasPermission) {
-            activityText = 'Needs approval';
+            activityText = t('status.needsApproval');
           } else {
             const sub = subagentCharacters.find((s) => s.id === id);
-            activityText = sub ? sub.label : 'Subtask';
+            activityText = sub ? sub.label : t('status.subtask');
           }
         } else {
           activityText = getActivityText(id, agentTools, ch.isActive);

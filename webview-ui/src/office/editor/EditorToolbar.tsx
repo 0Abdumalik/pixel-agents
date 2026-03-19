@@ -12,6 +12,7 @@ import {
 import { getCachedSprite } from '../sprites/spriteCache.js';
 import type { FloorColor, TileType as TileTypeVal } from '../types.js';
 import { EditTool } from '../types.js';
+import { t } from '../../i18n/index.js';
 
 const btnStyle: React.CSSProperties = {
   padding: '3px 8px',
@@ -337,30 +338,30 @@ export function EditorToolbar({
         <button
           style={isFloorActive ? activeBtnStyle : btnStyle}
           onClick={() => onToolChange(EditTool.TILE_PAINT)}
-          title="Paint floor tiles"
+          title={t('tooltip.paintFloor')}
         >
-          Floor
+          {t('editor.floor')}
         </button>
         <button
           style={isWallActive ? activeBtnStyle : btnStyle}
           onClick={() => onToolChange(EditTool.WALL_PAINT)}
-          title="Paint walls (click to toggle)"
+          title={t('tooltip.paintWall')}
         >
-          Wall
+          {t('editor.wall')}
         </button>
         <button
           style={isEraseActive ? activeBtnStyle : btnStyle}
           onClick={() => onToolChange(EditTool.ERASE)}
-          title="Erase tiles to void"
+          title={t('tooltip.erase')}
         >
-          Erase
+          {t('editor.erase')}
         </button>
         <button
           style={isFurnitureActive ? activeBtnStyle : btnStyle}
           onClick={() => onToolChange(EditTool.FURNITURE_PLACE)}
-          title="Place furniture"
+          title={t('tooltip.placeFurniture')}
         >
-          Furniture
+          {t('editor.furniture')}
         </button>
       </div>
 
@@ -630,17 +631,17 @@ export function EditorToolbar({
             <button
               style={showFurnitureColor ? activeBtnStyle : btnStyle}
               onClick={() => setShowFurnitureColor((v) => !v)}
-              title="Adjust selected furniture color"
+              title={t('tooltip.adjustFurnitureColor')}
             >
-              Color
+              {t('editor.color')}
             </button>
             {selectedFurnitureColor && (
               <button
                 style={{ ...btnStyle, fontSize: '20px', padding: '2px 6px' }}
                 onClick={() => onSelectedFurnitureColorChange(null)}
-                title="Remove color (restore original)"
+                title={t('tooltip.clearColor')}
               >
-                Clear
+                {t('editor.clear')}
               </button>
             )}
           </div>
@@ -726,7 +727,7 @@ export function EditorToolbar({
                   }
                   style={{ accentColor: 'rgba(90, 140, 255, 0.8)' }}
                 />
-                Colorize
+                {t('editor.colorize')}
               </label>
             </div>
           )}

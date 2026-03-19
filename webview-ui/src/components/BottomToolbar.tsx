@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { t } from '../i18n/index.js';
+import { useLocale } from '../hooks/useLocale.js';
 import type { WorkspaceFolder } from '../hooks/useExtensionMessages.js';
 import { vscode } from '../vscodeApi.js';
 import { SettingsModal } from './SettingsModal.js';
@@ -56,6 +58,7 @@ export function BottomToolbar({
   onToggleAlwaysShowOverlay,
   workspaceFolders,
 }: BottomToolbarProps) {
+  useLocale(); // re-render on locale change
   const [hovered, setHovered] = useState<string | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isFolderPickerOpen, setIsFolderPickerOpen] = useState(false);
@@ -107,7 +110,7 @@ export function BottomToolbar({
             color: 'var(--pixel-agent-text)',
           }}
         >
-          + Agent
+          {t('toolbar.addAgent')}
         </button>
         {isFolderPickerOpen && (
           <div
@@ -162,9 +165,9 @@ export function BottomToolbar({
                 background: hovered === 'edit' ? 'var(--pixel-btn-hover-bg)' : btnBase.background,
               }
         }
-        title="Edit office layout"
+        title={t('tooltip.editLayout')}
       >
-        Layout
+        {t('toolbar.layout')}
       </button>
       <div style={{ position: 'relative' }}>
         <button
@@ -180,9 +183,9 @@ export function BottomToolbar({
                     hovered === 'settings' ? 'var(--pixel-btn-hover-bg)' : btnBase.background,
                 }
           }
-          title="Settings"
+          title={t('tooltip.settings')}
         >
-          Settings
+          {t('toolbar.settings')}
         </button>
         <SettingsModal
           isOpen={isSettingsOpen}

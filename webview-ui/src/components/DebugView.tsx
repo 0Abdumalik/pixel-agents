@@ -1,3 +1,4 @@
+import { t } from '../i18n/index.js';
 import type { ToolActivity } from '../office/types.js';
 import { vscode } from '../vscodeApi.js';
 
@@ -88,7 +89,7 @@ export function DebugView({
               fontWeight: isSelected ? 'bold' : undefined,
             }}
           >
-            Agent #{id}
+            {t('debug.agent')} #{id}
           </button>
           <button
             onClick={() => vscode.postMessage({ type: 'closeAgent', id })}
@@ -100,7 +101,7 @@ export function DebugView({
               background: isSelected ? 'rgba(90, 140, 255, 0.25)' : undefined,
               color: isSelected ? '#fff' : undefined,
             }}
-            title="Close agent"
+            title={t('tooltip.closeAgent')}
           >
             ✕
           </button>
@@ -157,7 +158,7 @@ export function DebugView({
                     flexShrink: 0,
                   }}
                 />
-                Might be waiting for input
+                {t('status.waitingForInput')}
               </span>
             )}
           </div>

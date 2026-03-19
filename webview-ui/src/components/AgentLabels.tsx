@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import type { SubagentCharacter } from '../hooks/useExtensionMessages.js';
+import { t } from '../i18n/index.js';
 import type { OfficeState } from '../office/engine/officeState.js';
 import { CharacterState, TILE_SIZE } from '../office/types.js';
 
@@ -79,7 +80,7 @@ export function AgentLabels({
           dotColor = 'var(--vscode-charts-blue, #3794ff)';
         }
 
-        const labelText = subLabelMap.get(id) || `Agent #${id}`;
+        const labelText = subLabelMap.get(id) || `${t('debug.agent')} #${id}`;
 
         return (
           <div

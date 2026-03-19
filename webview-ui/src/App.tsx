@@ -7,6 +7,8 @@ import { PULSE_ANIMATION_DURATION_SEC } from './constants.js';
 import { useEditorActions } from './hooks/useEditorActions.js';
 import { useEditorKeyboard } from './hooks/useEditorKeyboard.js';
 import { useExtensionMessages } from './hooks/useExtensionMessages.js';
+import { useLocale } from './hooks/useLocale.js';
+import { t } from './i18n/index.js';
 import { OfficeCanvas } from './office/components/OfficeCanvas.js';
 import { ToolOverlay } from './office/components/ToolOverlay.js';
 import { EditorState } from './office/editor/editorState.js';
@@ -51,6 +53,7 @@ function EditActionBar({
   editor: ReturnType<typeof useEditorActions>;
   editorState: EditorState;
 }) {
+  useLocale(); // re-render on locale change
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const undoDisabled = es.undoStack.length === 0;
@@ -77,31 +80,31 @@ function EditActionBar({
       <button
         style={undoDisabled ? actionBarBtnDisabled : actionBarBtnStyle}
         onClick={undoDisabled ? undefined : editor.handleUndo}
-        title="Undo (Ctrl+Z)"
+        title={t('tooltip.undo')}
       >
-        Undo
+        {t('edit.undo')}
       </button>
       <button
         style={redoDisabled ? actionBarBtnDisabled : actionBarBtnStyle}
         onClick={redoDisabled ? undefined : editor.handleRedo}
-        title="Redo (Ctrl+Y)"
+        title={t('tooltip.redo')}
       >
-        Redo
+        {t('edit.redo')}
       </button>
-      <button style={actionBarBtnStyle} onClick={editor.handleSave} title="Save layout">
-        Save
+      <button style={actionBarBtnStyle} onClick={editor.handleSave} title={t('tooltip.save')}>
+        {t('edit.save')}
       </button>
       {!showResetConfirm ? (
         <button
           style={actionBarBtnStyle}
           onClick={() => setShowResetConfirm(true)}
-          title="Reset to last saved layout"
+          title={t('tooltip.reset')}
         >
-          Reset
+          {t('edit.reset')}
         </button>
       ) : (
         <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-          <span style={{ fontSize: '22px', color: 'var(--pixel-reset-text)' }}>Reset?</span>
+          <span style={{ fontSize: '22px', color: 'var(--pixel-reset-text)' }}>{t('edit.resetConfirm')}</span>
           <button
             style={{ ...actionBarBtnStyle, background: 'var(--pixel-danger-bg)', color: '#fff' }}
             onClick={() => {
@@ -109,10 +112,10 @@ function EditActionBar({
               editor.handleReset();
             }}
           >
-            Yes
+            {t('edit.yes')}
           </button>
           <button style={actionBarBtnStyle} onClick={() => setShowResetConfirm(false)}>
-            No
+            {t('edit.no')}
           </button>
         </div>
       )}
@@ -427,7 +430,7 @@ function App() {
               }}
               onClick={() => setMigrationNoticeDismissed(true)}
             >
-              Got it
+              {t('migration.gotIt')}
             </button>
           </div>
         </div>

@@ -7,6 +7,7 @@ import {
   ZOOM_MAX,
   ZOOM_MIN,
 } from '../constants.js';
+import { t } from '../i18n/index.js';
 
 interface ZoomControlsProps {
   zoom: number;
@@ -157,7 +158,7 @@ export function ZoomControls({ zoom, onZoomChange }: ZoomControlsProps) {
             cursor: minDisabled ? 'default' : 'pointer',
             opacity: minDisabled ? 'var(--pixel-btn-disabled-opacity)' : 1,
           }}
-          title="Zoom out (Ctrl+Scroll)"
+          title={t('tooltip.zoomOut')}
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <line

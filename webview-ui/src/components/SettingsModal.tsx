@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
+import { t } from '../i18n/index.js';
+import { useLocale } from '../hooks/useLocale.js';
 import { isSoundEnabled, setSoundEnabled } from '../notificationSound.js';
 import { vscode } from '../vscodeApi.js';
+import { LanguageSwitcher } from './LanguageSwitcher.js';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -35,6 +38,7 @@ export function SettingsModal({
   alwaysShowOverlay,
   onToggleAlwaysShowOverlay,
 }: SettingsModalProps) {
+  useLocale(); // re-render on locale change
   const [hovered, setHovered] = useState<string | null>(null);
   const [soundLocal, setSoundLocal] = useState(isSoundEnabled);
 
@@ -82,7 +86,7 @@ export function SettingsModal({
             marginBottom: '4px',
           }}
         >
-          <span style={{ fontSize: '24px', color: 'rgba(255, 255, 255, 0.9)' }}>Settings</span>
+          <span style={{ fontSize: '24px', color: 'rgba(255, 255, 255, 0.9)' }}>{t('settings.title')}</span>
           <button
             onClick={onClose}
             onMouseEnter={() => setHovered('close')}
@@ -114,7 +118,7 @@ export function SettingsModal({
             background: hovered === 'sessions' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
           }}
         >
-          Open Sessions Folder
+          {t('settings.openSessions')}
         </button>
         <button
           onClick={() => {
@@ -128,7 +132,7 @@ export function SettingsModal({
             background: hovered === 'export' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
           }}
         >
-          Export Layout
+          {t('settings.exportLayout')}
         </button>
         <button
           onClick={() => {
@@ -142,7 +146,7 @@ export function SettingsModal({
             background: hovered === 'import' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
           }}
         >
-          Import Layout
+          {t('settings.importLayout')}
         </button>
         <button
           onClick={() => {
@@ -158,7 +162,7 @@ export function SettingsModal({
             background: hovered === 'sound' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
           }}
         >
-          <span>Sound Notifications</span>
+          <span>{t('settings.soundNotifications')}</span>
           <span
             style={{
               width: 14,
@@ -187,7 +191,7 @@ export function SettingsModal({
             background: hovered === 'overlay' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
           }}
         >
-          <span>Always Show Labels</span>
+          <span>{t('settings.alwaysShowLabels')}</span>
           <span
             style={{
               width: 14,
@@ -216,7 +220,7 @@ export function SettingsModal({
             background: hovered === 'debug' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
           }}
         >
-          <span>Debug View</span>
+          <span>{t('settings.debugView')}</span>
           {isDebugMode && (
             <span
               style={{
@@ -229,6 +233,20 @@ export function SettingsModal({
             />
           )}
         </button>
+        {/* Language switcher */}
+        <div
+          style={{
+            padding: '8px 10px 4px',
+            borderTop: '1px solid var(--pixel-border)',
+            marginTop: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span style={{ fontSize: '20px', color: 'rgba(255, 255, 255, 0.5)' }}>{t('language.label')}</span>
+          <LanguageSwitcher />
+        </div>
       </div>
     </>
   );
